@@ -695,6 +695,25 @@ permissions and limitations under the License.
             return false;
         });
 
+        // ✅ 預先填入你自己的 ONTAP S3 設定
+        AWS.config.update({
+        accessKeyId: "MJM5249O77DODQ063DGH",
+        secretAccessKey: "3rXGZ5H9p_TFsPgad7UXd554KBX5q5eN_Pf43_XO",
+        region: "us-east-1"
+        });
+
+        s3 = new AWS.S3({
+        endpoint: new AWS.Endpoint("https://140.109.172.98"),
+        s3ForcePathStyle: true  // ONTAP 必須用 path-style
+        });
+
+        // ✅ 預設 bucket 設定為 tccip，避免 prompt
+        s3exp_config = {
+        Bucket: "tccip",
+        Delimiter: "/"
+        };
+
+
         // Document URL typically looks like this for path-style URLs:
         // - https://s3.amazonaws.com/mybucket1/index.html
         // - https://s3-us-west-2.amazonaws.com/mybucket2/index.html
