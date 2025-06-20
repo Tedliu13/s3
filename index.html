@@ -188,12 +188,26 @@ permissions and limitations under the License.
         size: 4
     };
 
-    AWS.config.region = 'us-east-1';
-    console.log('Region: ' + AWS.config.region);
+        // ✅ 自訂你的 ONTAP S3 參數
+        AWS.config.update({
+        accessKeyId: "MJM5249O77DODQ063DGH",
+        secretAccessKey: "3rXGZ5H9p_TFsPgad7UXd554KBX5q5eN_Pf43_XO",
+        region: "us-east-1"
+        });
 
-    // Initialize S3 SDK and the moment library (for time formatting utilities)
-    var s3 = new AWS.S3();
-    moment().format();
+        var s3 = new AWS.S3({
+        endpoint: new AWS.Endpoint("https://140.109.172.98"),
+        s3ForcePathStyle: true
+        });
+
+        moment().format();
+
+        // ✅ 自動設定 bucket 避免手動輸入
+        s3exp_config = {
+        Bucket: "tccip",
+        Delimiter: "/"
+        };
+
 
     // CloudFront Support - Init CF SDK
     var cloudfront = new AWS.CloudFront();
@@ -694,25 +708,6 @@ permissions and limitations under the License.
             }
             return false;
         });
-
-        // ✅ 預先填入你自己的 ONTAP S3 設定
-        AWS.config.update({
-        accessKeyId: "MJM5249O77DODQ063DGH",
-        secretAccessKey: "3rXGZ5H9p_TFsPgad7UXd554KBX5q5eN_Pf43_XO",
-        region: "us-east-1"
-        });
-
-        s3 = new AWS.S3({
-        endpoint: new AWS.Endpoint("https://140.109.172.98"),
-        s3ForcePathStyle: true  // ONTAP 必須用 path-style
-        });
-
-        // ✅ 預設 bucket 設定為 tccip，避免 prompt
-        s3exp_config = {
-        Bucket: "tccip",
-        Delimiter: "/"
-        };
-
 
         // Document URL typically looks like this for path-style URLs:
         // - https://s3.amazonaws.com/mybucket1/index.html
